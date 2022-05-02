@@ -1,4 +1,4 @@
-package com.wanzeler.crud.datavo;
+package com.wanzeler.crud.data.vo;
 
 import java.io.Serializable;
 
@@ -41,4 +41,7 @@ public class ProdutoVO implements Serializable{
 		return new ModelMapper().map(produto, ProdutoVO.class);
 	}
 
+	public Long getId() {
+		return id;
+	}
 }
