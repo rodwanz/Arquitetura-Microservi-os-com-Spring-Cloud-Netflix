@@ -1,5 +1,8 @@
 package com.wanzeler.crud.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,65 +27,66 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wanzeler.crud.data.vo.ProdutoVO;
 import com.wanzeler.crud.services.ProdutoService;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
 
 	private final ProdutoService produtoService;
-	private PagedResourcesAssembler<ProdutoVO> assembler;
-
+	private final PagedResourcesAssembler<ProdutoVO> assembler;
+	
 	@Autowired
 	public ProdutoController(ProdutoService produtoService, PagedResourcesAssembler<ProdutoVO> assembler) {
 		this.produtoService = produtoService;
 		this.assembler = assembler;
 	}
-
-	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
-	public ProdutoVO findById(@PathVariable("id") Long id) {
+	
+	@GetMapping(value = "/{id}", produces = {"application/json","application/xml","application/x-yaml"})
+	public ProdutoVO findById(@PathVariable("id")  Long id) {
 		ProdutoVO produtoVO = produtoService.findById(id);
 		produtoVO.add(linkTo(methodOn(ProdutoController.class).findById(id)).withSelfRel());
 		return produtoVO;
 	}
-
-	@GetMapping(produces = { "application/json", "applicationn/xml", "application/x-yaml" })
+	
+	@GetMapping(produces = {"application/json","application/xml","application/x-yaml"})
 	public ResponseEntity<?> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "12") int limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
-
+		
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
-
-		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "nome"));
+		
+		Pageable pageable = PageRequest.of(page,limit, Sort.by(sortDirection,"nome"));
+		
 		Page<ProdutoVO> produtos = produtoService.findAll(pageable);
 		produtos.stream()
 				.forEach(p -> p.add(linkTo(methodOn(ProdutoController.class).findById(p.getId())).withSelfRel()));
-
-		PagedModel<EntityModel<ProdutoVO>> pageModel = assembler.toModel(produtos);
-
-		return new ResponseEntity<>(pageModel, HttpStatus.OK);
+		
+		PagedModel<EntityModel<ProdutoVO>> pagedModel = assembler.toModel(produtos);
+		
+		return new ResponseEntity<>(pagedModel,HttpStatus.OK);
 	}
-
-	@PostMapping(produces = { "application/jso", "application/xml", "application/x-yaml" }, consumes = {
-			"application/json", "application/xml", "application/x-yaml" })
+	
+	@PostMapping(produces = {"application/json","application/xml","application/x-yaml"}, 
+			     consumes = {"application/json","application/xml","application/x-yaml"})
 	public ProdutoVO create(@RequestBody ProdutoVO produtoVO) {
 		ProdutoVO proVo = produtoService.create(produtoVO);
 		proVo.add(linkTo(methodOn(ProdutoController.class).findById(proVo.getId())).withSelfRel());
 		return proVo;
 	}
-
-	@PutMapping(produces = {"application/jso", "application/xml", "application/x-yaml"},
-			consumes = {"application/json", "application/xml", "application/x-yaml"})
+	
+	@PutMapping(produces = {"application/json","application/xml","application/x-yaml"}, 
+		     consumes = {"application/json","application/xml","application/x-yaml"})
 	public ProdutoVO update(@RequestBody ProdutoVO produtoVO) {
 		ProdutoVO proVo = produtoService.update(produtoVO);
 		proVo.add(linkTo(methodOn(ProdutoController.class).findById(produtoVO.getId())).withSelfRel());
-		return proVo;	
+		return proVo;
 	}
-
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id){
 		produtoService.delete(id);
 		return ResponseEntity.ok().build();
 	}
 }
+

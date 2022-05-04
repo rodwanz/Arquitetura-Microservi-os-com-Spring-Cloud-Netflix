@@ -14,7 +14,7 @@ import com.wanzeler.crud.repositories.ProdutoRepository;
 
 @Service
 public class ProdutoService {
-	
+
 	private final ProdutoRepository produtoRepository;
 
 	@Autowired

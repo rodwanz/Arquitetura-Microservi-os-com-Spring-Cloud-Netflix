@@ -14,14 +14,10 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExceptionResponse implements Serializable{
-	
-	public ExceptionResponse(Date date, String message2, String description) {
-		// TODO Auto-generated constructor stub
-	}
-	
-	private static final long serialVersionUID = 1L;
-	
+public class ExceptionResponse implements Serializable {
+
+	private static final long serialVersionUID = 6986899997042135472L;
+
 	private Date timestamp;
 	private String message;
 	private String details;

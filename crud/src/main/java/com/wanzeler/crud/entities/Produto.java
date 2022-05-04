@@ -28,9 +28,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Produto implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+public class Produto implements Serializable {
+
+	private static final long serialVersionUID = 840917418532642260L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
