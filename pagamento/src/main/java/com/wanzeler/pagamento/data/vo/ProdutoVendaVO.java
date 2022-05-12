@@ -8,7 +8,6 @@ import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.wanzeler.pagamento.entities.ProdutoVenda;
-import com.wanzeler.pagamento.entities.Venda;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

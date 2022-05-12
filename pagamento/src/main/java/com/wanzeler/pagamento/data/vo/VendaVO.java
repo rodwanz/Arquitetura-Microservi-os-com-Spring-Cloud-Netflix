@@ -36,12 +36,20 @@ public class VendaVO extends RepresentationModel<VendaVO> implements Serializabl
 	private Date data;
 
 	@JsonProperty("produtos")
-	private List<ProdutoVenda> produtos;
+	private List<ProdutoVendaVO> produtos;
 
 	@JsonProperty("valorTotal")
 	private Double valorTotal;
 	
 	public static VendaVO create(Venda venda) {
 		return new ModelMapper().map(venda, VendaVO.class);
+	}
+
+	public Iterable<ProdutoVenda> getProdutos() {
+		return null;
+	}
+
+	public Long getId() {
+		return null;
 	}
 }
