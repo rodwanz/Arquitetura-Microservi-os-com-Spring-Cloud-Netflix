@@ -24,7 +24,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class ProdutoVendaVO extends RepresentationModel<ProdutoVendaVO> implements Serializable{
-	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("id")
 	private Long id;
