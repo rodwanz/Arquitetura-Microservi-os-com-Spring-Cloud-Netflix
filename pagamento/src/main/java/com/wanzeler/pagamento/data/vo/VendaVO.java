@@ -27,7 +27,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class VendaVO extends RepresentationModel<VendaVO> implements Serializable{
-	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("id")
 	private Long id;
